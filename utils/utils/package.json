@@ -1,0 +1,19 @@
+{
+  "name": "@pm-cli/utils",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "linzhenfang <linzhenfang@pinming.org>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
