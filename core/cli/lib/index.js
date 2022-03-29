@@ -11,8 +11,9 @@ const constant = require('./constant')
 const userHome = require('user-home')
 const pahtExists = require('path-exists').sync
 const log = require('@pm-cli/log')
-const minimist = require('minimist')
 const pathExists = require('path-exists').sync
+const init = require('@pm-cli/init')
+const exec = require('@pm-cli/exec')
 
 
 let args
@@ -34,20 +35,6 @@ function checkNodeVersion () {
 
 function checkRoot () {
     rootCheck()
-}
-
-function checkInputArgs () {
-    args = minimist(process.argv.slice(2))
-    checkArgs()
-}
-
-function checkArgs () {
-    if (args.debug) {
-        process.env.LOG_LEVEL = 'verbose'
-    } else {
-        process.env.LOG_LEVEL = 'info'
-    }
-    log.level = process.env.LOG_LEVEL
 }
 
 function checkHome () {
@@ -87,25 +74,32 @@ function registerCommonder () {
     program
     .name(Object.keys(pkg.bin)[0])
     .usage('<command> [options]')
-    .option('-d, --debug', '是否开启调试模式', false)
     .version(pkg.version)
+    .option('-d, --debug', '是否开启调试模式', false)
+    .option('-tp, --targetPath <targetPath>', '是否指定调试路径', '')
 
 
     program
     .command('init [projectName]')
     .option('-f, --force', '是否强制初始化项目')
-    .action((projectName, cmdObj) => {
-        console.log('init', projectName, cmdObj)
-    })
+    .action(exec)
+    // .action(init)
 
 
     program.on('option:debug', function() {
-        if (program.debug) {
+        const opt = this.opts()
+        if (opt.debug) {
             process.env.LOG_LEVEL = 'verbose'
         } else {
             process.env.LOG_LEVEL = 'info'
         }
         log.level = process.env.LOG_LEVEL
+    })
+
+    program.on('option:targetPath', function() {
+        const opt = this.opts()
+        process.env.CLI_TARGET_PATH = opt.targetPath
+    //    console.log(program.targetPath);
     })
 
     program.on('commond:*', function(obj) {
@@ -121,15 +115,23 @@ function registerCommonder () {
     }
 }
 
+function prepare () {
+    checkPkgVersion()
+    checkNodeVersion()
+    checkHome()
+    checkRoot()
+}
+
 
 
 function core() {
     try {        
-        checkPkgVersion()
-        checkNodeVersion()
-        checkHome()
-        checkRoot()
-        checkInputArgs()
+        // checkPkgVersion()
+        // checkNodeVersion()
+        // checkHome()
+        // checkRoot()
+        // checkInputArgs()
+        prepare()
         checkEnv()
         registerCommonder()
     } catch (e) {

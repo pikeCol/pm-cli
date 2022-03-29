@@ -16,11 +16,12 @@
   "dependencies": {
     "@pm-cli/log": "file:../../utils/log",
     "@pm-cli/utils": "file:../../utils/utils",
+    "@pm-cli/init": "file:../../commonds/init",
+    "@pm-cli/exec": "file:../exec",
     "colors": "^1.4.0",
     "commander": "^9.1.0",
     "dotenv": "^16.0.0",
     "import-local": "^3.1.0",
-    "minimist": "1.2.5",
     "npmlog": "^6.0.1",
     "path-exists": "4.0.0",
     "root-check": "^1.0.0",
