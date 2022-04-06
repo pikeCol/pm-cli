@@ -27,6 +27,8 @@
     "url": "https://github.com/pikeCol/pm-cli/issues"
   },
   "dependencies": {
+    "npminstall": "^6.1.0",
+    "path-exists": "^4.0.0",
     "pkg-dir": "5.0.0"
   }
 }
