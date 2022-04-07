@@ -71,7 +71,7 @@ function exec() {
             argv[arguments.length - 1] = o
 
             let code = `require('${rootFile}').call(null, ${JSON.stringify(argv)})`
-            const child = cp.spawn('node', ['-e', code], {
+            const child = spawn('node', ['-e', code], {
                 cwd: process.cwd(),
                 stdio: 'inherit'
             })
@@ -97,6 +97,15 @@ function exec() {
     }
 
     // console.log(pkg.getRootFilePath());
+}
+
+// spawn兼容win32
+function spawn (command, args, options) {
+    const win32 = process.platform === 'win32'
+    const cmd = win32 ? `cmd` : command
+    const cmdArgs = win32 ? ['/c'].concat(command, args) : args
+
+    return cp.spawn(cmd, cmdArgs, options || {})
 }
 
 
