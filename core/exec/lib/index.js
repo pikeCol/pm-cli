@@ -2,6 +2,7 @@
 
 const Package = require('@pm-cli/package')
 const path = require('path')
+const cp = require('child_process')
 
 const CACAHE_DIR = 'dependencies'
 const SETTINTS = {
@@ -28,8 +29,6 @@ function exec() {
     if (!targetPath) { 
         targetPath = path.resolve(homePath, CACAHE_DIR) // 生成缓存路径
         storeDir = path.resolve(targetPath, 'node_modules')
-        console.log('targetPath', targetPath);
-        console.log('storeDir', storeDir);
         pkg = new Package({
             targetPath,
             storeDir,
@@ -40,7 +39,7 @@ function exec() {
             // 更新package
         } else {
             // 安装package
-            // pkg.install()
+            pkg.install()
             console.log('安装package');
         }
     
@@ -56,10 +55,48 @@ function exec() {
     const rootFile = pkg.getRootFilePath()
     console.log(rootFile, 'rootFile');
     if (rootFile) {
-        require(rootFile).apply(null, arguments)
+        try {
+            // require(rootFile).call(null, Array.from(arguments))
+            const argv = Array.from(arguments)
+            const cmd = argv[arguments.length - 1]
+            const o = Object.create(null)
+
+            // 去除多余的参数
+            Object.keys(cmd).forEach(key => {
+                if (cmd.hasOwnProperty(key) && key !== 'parent' && !key.startsWith('_')) {
+                    o[key] = cmd[key]
+                }
+            })
+
+            argv[arguments.length - 1] = o
+
+            let code = `require('${rootFile}').call(null, ${JSON.stringify(argv)})`
+            const child = cp.spawn('node', ['-e', code], {
+                cwd: process.cwd(),
+                stdio: 'inherit'
+            })
+            // 命令执行失败
+            child.on('error', err => {
+                log.error(err.message)
+                process.exit(1)
+            })
+
+            // 退出事件
+            child.on('exit', code => {
+                if (code !== 0) {
+                    log.error(`${cmdName} failed`)
+                }
+                process.exit(code)
+            })
+
+
+        } catch (err) {
+            log.err(err.message)
+        }
+            
     }
 
-    console.log(pkg.getRootFilePath());
+    // console.log(pkg.getRootFilePath());
 }
 
 

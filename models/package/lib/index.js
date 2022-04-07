@@ -62,7 +62,7 @@ class Package {
         if (dir) {
             const pkgFile = require(path.resolve(dir, 'package.json'))
             if (pkgFile && pkgFile.main) {
-                return this.formatePath(path.relative(dir, pkgFile.main))
+                return this.formatePath(path.resolve(dir, pkgFile.main))
             }
         }
         return null

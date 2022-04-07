@@ -1,9 +1,9 @@
 {
-  "name": "@pm-cli/init",
+  "name": "@pm-cli/command",
   "version": "1.0.0",
   "description": "> TODO: description",
-  "author": "linzhenfang <linzhenfang@pinming.org>",
-  "homepage": "",
+  "author": "linzhenfang <linzhenfang@pinming.cn>",
+  "homepage": "https://github.com/pikeCol/pm-cli#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -16,11 +16,18 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pikeCol/pm-cli.git"
+  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
+  "bugs": {
+    "url": "https://github.com/pikeCol/pm-cli/issues"
+  },
   "dependencies": {
-    "@pm-cli/command": "file:../../models/command",
-    "@pm-cli/log": "file:../../utils/log"
+    "semver": "^7.3.5",
+    "colors": "^1.4.0"
   }
 }
