@@ -1,5 +1,4 @@
 
-const semver = require('semver')
 const colors =require('colors/safe')
 const rootCheck = require('root-check')
 const commonder = require('commander')
@@ -25,13 +24,13 @@ function checkPkgVersion () {
     log.notice('cli', pkg.version)
 }
 
-function checkNodeVersion () {
-    const currentVersion = process.version
-    const lowestVerion = constant.LOWEST_NODE_VERSION
-    if (!semver.gte(currentVersion, lowestVerion)) {
-        throw new Error(colors.red(`pm-cli 需要安装${lowestVerion} 以上的node.js`))
-    }
-}
+// function checkNodeVersion () {
+//     const currentVersion = process.version
+//     const lowestVerion = constant.LOWEST_NODE_VERSION
+//     if (!semver.gte(currentVersion, lowestVerion)) {
+//         throw new Error(colors.red(`pm-cli 需要安装${lowestVerion} 以上的node.js`))
+//     }
+// }
 
 function checkRoot () {
     rootCheck()
@@ -117,7 +116,7 @@ function registerCommonder () {
 
 function prepare () {
     checkPkgVersion()
-    checkNodeVersion()
+    // checkNodeVersion()
     checkHome()
     checkRoot()
 }

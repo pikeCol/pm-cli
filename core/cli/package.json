@@ -5,7 +5,7 @@
   "author": "linzhenfang <linzhenfang@pinming.org>",
   "homepage": "",
   "license": "ISC",
-  "main": "",
+  "main": "bin/index.js",
   "bin": {
     "pm-cli": "bin/index.js"
   },
@@ -25,7 +25,6 @@
     "npmlog": "^6.0.1",
     "path-exists": "4.0.0",
     "root-check": "^1.0.0",
-    "semver": "^7.3.5",
     "user-home": "2.0.0"
   },
   "files": [
